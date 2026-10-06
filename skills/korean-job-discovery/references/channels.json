@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "seed_date": "2026-10-06",
-  "seed_note": "49 discovery entry points: 43 dated added routes and 6 baseline/social sources. Not independent databases or verified vacancies.",
+  "seed_note": "75 discovery entry points across occupations and optional target groups. Historical route/function evidence, not independent databases or verified vacancies.",
   "baseline_ids": [
     "saramin",
     "wanted",
@@ -12,6 +12,9 @@
     "work24"
   ],
   "track_presets": {
+    "general": [
+      "jobplanet"
+    ],
     "it": [
       "jumpit",
       "rocketpunch",
@@ -61,6 +64,96 @@
     "bio": [
       "bric",
       "kclub"
+    ],
+    "office": [
+      "inthiswork",
+      "peoplenjob",
+      "jobplanet",
+      "businesspeople"
+    ],
+    "accounting": [
+      "semoojob",
+      "inthiswork",
+      "businesspeople"
+    ],
+    "sales": [
+      "peoplenjob",
+      "inthiswork",
+      "fashioninjob",
+      "shopma"
+    ],
+    "customer_service": [
+      "work24",
+      "incruit",
+      "inthiswork",
+      "albamon"
+    ],
+    "marketing": [
+      "iboss",
+      "inthiswork",
+      "mediajob",
+      "peoplenjob",
+      "businesspeople"
+    ],
+    "design": [
+      "designerjob",
+      "fashioninjob",
+      "gamejob",
+      "inthiswork"
+    ],
+    "media": [
+      "mediajob",
+      "gamejob",
+      "iboss",
+      "inthiswork"
+    ],
+    "retail": [
+      "shopma",
+      "fashioninjob",
+      "albamon",
+      "daangn-jobs",
+      "alba"
+    ],
+    "hospitality": [
+      "foodnjob",
+      "hotelup",
+      "albamon",
+      "daangn-jobs",
+      "alba"
+    ],
+    "healthcare": [
+      "medijob",
+      "rnjob"
+    ],
+    "welfare": [
+      "bokji",
+      "welfare-association",
+      "childcare"
+    ],
+    "education": [
+      "hunjang",
+      "childcare"
+    ],
+    "trades": [
+      "construction-worknet",
+      "construction-worker",
+      "work24"
+    ],
+    "manufacturing": [
+      "work24",
+      "albamon",
+      "incruit"
+    ],
+    "logistics": [
+      "work24",
+      "inthiswork",
+      "albamon"
+    ],
+    "part_time": [
+      "albamon",
+      "daangn-jobs",
+      "alba",
+      "foodnjob"
     ]
   },
   "routes": [
@@ -71,7 +164,7 @@
       "family": "job_board",
       "tracks": [],
       "regions": [],
-      "usage": "직무+지역+신입으로 검색; 산업별·중견/강소기업 채용도 별도로 보기",
+      "usage": "직무·지역·경력·학력·고용형태로 검색; 사무·판매·서비스·생산·물류 등도 분리",
       "limitations": "다른 포털과 중복 가능",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -80,15 +173,17 @@
     {
       "id": "incruit",
       "name": "인크루트",
-      "url": "https://job.incruit.com/jobdb_list/searchjob.asp?crr=1",
+      "url": "https://job.incruit.com/jobdb_list/searchjob.asp?cate=occu",
       "family": "job_board",
       "tracks": [],
       "regions": [],
-      "usage": "신입/경력무관+지역 또는 산업단지+직종 조합",
+      "usage": "직종·지역·경력·학력·고용형태로 검색; 신입 전용 URL을 기본값으로 강제하지 않음",
       "limitations": "검색 노출 확인과 현재 UI 직접 사용 검증을 구분",
       "seed_observed_on": "2026-10-06",
       "seed_status": "access_limited",
-      "seed_evidence": "공식 검색 색인에 신입·직종·산업단지·고용형태 필터 노출; 직접 열람 오류"
+      "seed_evidence": "공식 직종별 검색 색인에 사무·마케팅·서비스·생산·교육·보건/복지 및 경력 필터 확인; 홈 직접 접근 제한",
+      "seed_evidence_url": "https://job.incruit.com/jobdb_list/searchjob.asp?cate=occu",
+      "seed_evidence_level": "search_index"
     },
     {
       "id": "jobplanet",
@@ -96,6 +191,9 @@
       "url": "https://www.jobplanet.co.kr/job",
       "family": "job_board",
       "tracks": [
+        "general",
+        "office",
+        "marketing",
         "it"
       ],
       "regions": [],
@@ -130,7 +228,7 @@
         "startup"
       ],
       "regions": [],
-      "usage": "직군 외에도 AI/LLM/로봇/QA/운영 키워드 탐색",
+      "usage": "직군·숙련도·근무방식으로 개발·기획·디자인·영업·마케팅·운영 등을 구분",
       "limitations": "추천 및 일부 기능 로그인",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -170,18 +268,26 @@
     {
       "id": "inthiswork",
       "name": "인디스워크",
-      "url": "https://inthiswork.com/it",
+      "url": "https://inthiswork.com/",
       "family": "job_board",
       "tracks": [
-        "it",
-        "junior"
+        "junior",
+        "office",
+        "marketing",
+        "design",
+        "media",
+        "finance",
+        "logistics",
+        "it"
       ],
       "regions": [],
-      "usage": "IT 외 데이터분석/리서치/사무지원/CS·CX 분류도 보기",
-      "limitations": "재게시 큐레이션; 마감은 회사 원문 확인",
+      "usage": "직무 메뉴에서 사무·HR·재무회계·마케팅·영업·디자인·미디어·물류 등 선택",
+      "limitations": "신입·주니어 큐레이션 비중; 재게시 원문·마감 별도 확인",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
-      "seed_evidence": "직무별 채용 콘텐츠 확인"
+      "seed_evidence": "공식 홈 본문 직무 메뉴에서 사무·HR·마케팅·디자인·물류 등 확인",
+      "seed_evidence_url": "https://inthiswork.com/",
+      "seed_evidence_level": "body"
     },
     {
       "id": "rndjob",
@@ -238,7 +344,7 @@
         "public"
       ],
       "regions": [],
-      "usage": "NCS 정보통신/금융/기계·전기 등+지역+신입",
+      "usage": "NCS 경영·회계·사무·사회복지·교육·정보통신 등+지역+경력+고용형태 검색",
       "limitations": "직렬·기관별 자격 및 시험은 공고문 확인",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -268,7 +374,7 @@
         "public"
       ],
       "regions": [],
-      "usage": "전산/기술지원/연구지원/공무직/기간제 등 검색",
+      "usage": "행정·사무·교육·보건·시설·공무직·기간제와 기술직을 분리 탐색",
       "limitations": "공무원·공무직·기관별 채용이 혼재",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -312,7 +418,7 @@
         "부산",
         "Busan"
       ],
-      "usage": "부산 구군+IT/기술/연구지원 등 업무 검색",
+      "usage": "부산 구군+사무·판매·서비스·생산·물류·기술 등 실제 업무 검색",
       "limitations": "통합/재게시; 다른 채널과 중복",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -423,7 +529,10 @@
       "name": "창원대 스마트제조융합 취업정보",
       "url": "https://www.changwon.ac.kr/smart/na/ntt/selectNttList.do?bbsId=3768&mi=12518",
       "family": "university",
-      "tracks": [],
+      "tracks": [
+        "rnd",
+        "it"
+      ],
       "regions": [
         "경남",
         "경상남도",
@@ -442,11 +551,13 @@
       "url": "https://www.peoplenjob.com/jobs",
       "family": "job_board",
       "tracks": [
+        "foreign",
         "finance",
-        "foreign"
+        "office",
+        "marketing"
       ],
       "regions": [],
-      "usage": "학생/신입 및 IT Support/Data/Operations/Research 업무 검색",
+      "usage": "국내 외국계의 사무·HR·회계·마케팅·영업·운영 등 영문/한글 직무 검색",
       "limitations": "헤드헌팅/파견과 원 고용주 직접 채용 구분; 홈은 timeout이었으나 jobs 본문 성공",
       "seed_observed_on": "2026-10-06",
       "seed_status": "checked",
@@ -564,7 +675,12 @@
       "name": "부산 산업단지 입주기업 검색",
       "url": "https://bici.bepa.kr/index.php/management/movingin",
       "family": "company_directory",
-      "tracks": [],
+      "tracks": [
+        "manufacturing",
+        "trades",
+        "rnd",
+        "it"
+      ],
       "regions": [
         "부산",
         "Busan"
@@ -790,6 +906,497 @@
       "seed_observed_on": null,
       "seed_status": "unverified",
       "seed_evidence": "기존 일반 채널로 보완 등록; 2026-10-06 추가 경로 조사에서는 재검증하지 않음"
+    },
+    {
+      "id": "semoojob",
+      "name": "세무잡",
+      "url": "https://www.semoojob.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "office"
+      ],
+      "regions": [],
+      "usage": "세무·기장·회계·경리: 지역·경력·고용형태로 검색",
+      "limitations": "세무사무소·회계법인 비중이 높음; 기업 재무 전체를 대표하지 않음",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문의 세무·회계 채용 카테고리와 목록 확인",
+      "seed_evidence_url": "https://www.semoojob.co.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "businesspeople",
+      "name": "비즈니스피플",
+      "url": "https://www.bzpp.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "office",
+        "marketing",
+        "finance"
+      ],
+      "regions": [],
+      "usage": "경영지원·HR·전문직·영업/마케팅의 경력 채용과 헤드헌팅 탐색",
+      "limitations": "경력·고급직 비중; 헤드헌팅과 기업 직접고용 구분. 동적 공고 목록 상세는 미확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문에서 검색 필터·서비스·헤드헌팅 구분 확인; 동적 목록 추출 제한",
+      "seed_evidence_url": "https://www.bzpp.co.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "iboss",
+      "name": "아이보스 채용",
+      "url": "https://www.i-boss.co.kr/ab-2794",
+      "family": "community",
+      "tracks": [
+        "marketing",
+        "media"
+      ],
+      "regions": [],
+      "usage": "마케팅·광고·브랜딩·콘텐츠 및 관련 영업 직무 검색",
+      "limitations": "커뮤니티 게시; 등록일·만료·프리랜서/단기·고용주 원문 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 채용 게시판 본문·직무 필터·목록 확인",
+      "seed_evidence_url": "https://www.i-boss.co.kr/ab-2794",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "mediajob",
+      "name": "미디어잡",
+      "url": "https://www.mediajob.co.kr/recruit/recruit.htm",
+      "family": "job_board",
+      "tracks": [
+        "media",
+        "marketing"
+      ],
+      "regions": [],
+      "usage": "방송·영상·언론·출판·광고·엔터·콘텐츠 직종과 지역 검색",
+      "limitations": "프로젝트·프리랜서·계약·인턴을 분리하고 회사 원문 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문에서 직종·업종·지역·인턴/알바 탐색 구조 확인",
+      "seed_evidence_url": "https://www.mediajob.co.kr/recruit/recruit.htm",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "designerjob",
+      "name": "디자이너잡",
+      "url": "https://www.designerjob.co.kr/recruit/",
+      "family": "job_board",
+      "tracks": [
+        "design"
+      ],
+      "regions": [],
+      "usage": "시각·그래픽·웹/UIUX·패션·제품·편집·VMD 디자인 탐색",
+      "limitations": "카테고리 본문 확인; 동적 상세 목록 추출 제한. 포트폴리오와 고용형태 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 전문관·지역·경력·학력·고용형태 구조 확인; 공고 상세 실사용 미확인",
+      "seed_evidence_url": "https://www.designerjob.co.kr/recruit/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "gamejob",
+      "name": "게임잡",
+      "url": "https://www.gamejob.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "design",
+        "media",
+        "it"
+      ],
+      "regions": [],
+      "usage": "게임기획·아트·QA·사업·운영·로컬라이제이션을 개발과 구분해 탐색",
+      "limitations": "게임 산업 특화; 지원·일부 회원 기능 로그인 가능",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문에서 직무·기업별 채용 구조와 비개발 직군 확인",
+      "seed_evidence_url": "https://www.gamejob.co.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "fashioninjob",
+      "name": "패션인잡",
+      "url": "https://fashioninjob.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "design",
+        "retail",
+        "marketing"
+      ],
+      "regions": [],
+      "usage": "패션 MD·VMD·디자인·영업·매장판매·마케팅을 분리 탐색",
+      "limitations": "본사 전문직·매장직 혼재; 광고·헤드헌팅·고용형태 구분",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 직종 필터·기업별 채용 구조 확인",
+      "seed_evidence_url": "https://fashioninjob.co.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "albamon",
+      "name": "알바몬",
+      "url": "https://www.albamon.com/jobs/home",
+      "family": "job_board",
+      "tracks": [
+        "part_time",
+        "retail",
+        "hospitality",
+        "logistics",
+        "manufacturing"
+      ],
+      "regions": [],
+      "usage": "동네·매장·음식·호텔·물류·생산의 단시간/기간제 조건 검색",
+      "limitations": "등록 플랫폼 원문 고용주 확인; 시급·시간·교대·파견·계약 조건 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 지역별 알바·브랜드·업종 검색 구조 확인",
+      "seed_evidence_url": "https://www.albamon.com/jobs/home",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "alba",
+      "name": "알바천국",
+      "url": "https://www.alba.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "part_time",
+        "retail",
+        "hospitality"
+      ],
+      "regions": [],
+      "usage": "지역·업종·근무시간별 아르바이트 탐색",
+      "limitations": "고객지원의 검색/지원 기능은 확인; 채용 검색 페이지 직접 접근 제한",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 고객지원 본문에서 채용정보 찾기·지원 기능 확인; 검색목록 접근 제한",
+      "seed_evidence_url": "https://www.alba.co.kr/customer/Main",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "construction-worknet",
+      "name": "건설워크넷",
+      "url": "https://cworknet.kocea.or.kr/",
+      "family": "job_board",
+      "tracks": [
+        "trades"
+      ],
+      "regions": [],
+      "usage": "건설기술인·건축·토목·설비의 전문 채용 탐색",
+      "limitations": "한국건설기술인협회 경로; 직무별 기술인 자격·경력·현장 조건 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문에서 협회 운영·구인정보·채용검색 메뉴 확인",
+      "seed_evidence_url": "https://cworknet.kocea.or.kr/worknet/work/index.do",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "construction-worker",
+      "name": "건설워커",
+      "url": "https://www.worker.co.kr/",
+      "family": "job_board",
+      "tracks": [
+        "trades"
+      ],
+      "regions": [],
+      "usage": "건설·건축·토목·설비·안전·품질·기능·노무·일용직을 분리 탐색",
+      "limitations": "기술자격·경력·현장/숙소·일용/상용·파견 조건을 공고별 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 분야별·지역별 채용과 기능·노무·일용직 분류 확인",
+      "seed_evidence_url": "https://www.worker.co.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "seniorro",
+      "name": "노인일자리 여기",
+      "url": "https://www.seniorro.or.kr/",
+      "family": "targeted",
+      "tracks": [],
+      "regions": [],
+      "usage": "사용자가 노인일자리 사업을 요청할 때 지역·사업유형별 검색",
+      "limitations": "연령·사업·수행기관별 참여 조건 존재; 민간 일반 채용과 구분",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 노인일자리 검색·접수·참여신청 기능 확인",
+      "seed_evidence_url": "https://www.seniorro.or.kr/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "midcareer-center",
+      "name": "고용24 중장년내일센터",
+      "url": "https://www.work24.go.kr/wk/u/a/1000/seniorCenterSvcInfo.do",
+      "family": "employment_support",
+      "tracks": [],
+      "regions": [],
+      "usage": "명시한 중장년 맥락에서 센터 상담·전직·재취업·일자리 정보 이용",
+      "limitations": "40세 이상 대상 안내; 공고 검색 전용 사이트가 아닌 취업지원 서비스",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 대상·상담·전직지원·이용 절차 확인",
+      "seed_evidence_url": "https://www.work24.go.kr/wk/u/a/1000/seniorCenterSvcInfo.do",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "saeil",
+      "name": "여성새로일하기센터",
+      "url": "https://saeil.mogef.go.kr/hom/HOM_Main.do",
+      "family": "employment_support",
+      "tracks": [],
+      "regions": [],
+      "usage": "사용자가 여성 경력복귀·미취업 맥락을 명시한 경우 센터와 취업연계 탐색",
+      "limitations": "상담·훈련·인턴과 채용을 구분; 성별·경력중단을 추정하지 않고 서비스 대상 재확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 센터 찾기·구인구직 관리·훈련·취업지원 메뉴 확인",
+      "seed_evidence_url": "https://saeil.mogef.go.kr/hom/info/info.do",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "kead",
+      "name": "한국장애인고용공단 채용정보",
+      "url": "https://www.kead.or.kr/bbs/jobinfo/bbsPage.do?menuId=MENU2201",
+      "family": "targeted",
+      "tracks": [],
+      "regions": [],
+      "usage": "장애인 채용정보·고용알선을 명시적으로 요청할 때 현행 공단 경로 확인",
+      "limitations": "장애 여부를 추정하지 않음; 채용정보/공단 자체채용/사업 안내를 구분. 구 워크투게더 주소는 이동",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 본문 장애인지원 > 채용정보 메뉴와 자체 직원채용 메뉴 구분 확인; 이후 재열람 시간초과, 최신 목록 미확인",
+      "seed_evidence_url": "https://www.kead.or.kr/bbs/jobinfo/bbsPage.do?menuId=MENU2201",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "shopma",
+      "name": "샵마넷",
+      "url": "https://m.shopma.net/m_ndtsch.asp",
+      "family": "job_board",
+      "tracks": [
+        "retail"
+      ],
+      "regions": [],
+      "usage": "백화점·아울렛·브랜드 매장 판매·매장관리: 지역·품목·브랜드 검색",
+      "limitations": "유통·판매직 특화; 유료 노출 혼재. PC 홈 시간초과, 공식 모바일 검색은 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 모바일 본문 상세검색·지역·품목·브랜드·알바/장년 분류 확인",
+      "seed_evidence_url": "https://m.shopma.net/m_ndtsch.asp",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "daangn-jobs",
+      "name": "당근알바",
+      "url": "https://jobs.daangn.com/",
+      "family": "job_board",
+      "tracks": [
+        "part_time",
+        "retail",
+        "hospitality",
+        "logistics"
+      ],
+      "regions": [],
+      "usage": "희망 근무지 주변 판매·주방·홀·카페·물류·현장 단기 일자리 탐색",
+      "limitations": "지역성·단기 근무 비중; 고용주·시간·임금·업무·앱/회원 접근 조건 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 직무 카테고리·동네 추천·운영 주체 확인",
+      "seed_evidence_url": "https://jobs.daangn.com/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "foodnjob",
+      "name": "푸드앤잡",
+      "url": "https://www.foodnjob.com/",
+      "family": "job_board",
+      "tracks": [
+        "hospitality",
+        "part_time"
+      ],
+      "regions": [],
+      "usage": "조리·주방보조·홀서빙·제과제빵·영양사·외식 알바를 구분 탐색",
+      "limitations": "외식 중심; 호텔 전 직군을 대표하지 않음. 회원 기능과 자격·등록 주체 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 지역·분야·근무형태·채용/알바 메뉴 확인",
+      "seed_evidence_url": "https://www.foodnjob.com/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "hotelup",
+      "name": "호텔업",
+      "url": "https://www.hotelup.com/",
+      "family": "job_board",
+      "tracks": [
+        "hospitality"
+      ],
+      "regions": [],
+      "usage": "중소 숙박업의 프런트·캐셔·객실청소·당번·시설·운영 탐색",
+      "limitations": "모텔·중소 숙박업 비중; 대형 호텔/리조트 전 직군을 대표하지 않음. 교대·숙식 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 본문 채용정보 메뉴와 숙박업 직무 분류 확인",
+      "seed_evidence_url": "https://www.hotelup.com/",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "rnjob",
+      "name": "RNJOB 간호인력취업교육센터",
+      "url": "https://www.rnjob.or.kr/recruit/getJobOpenning.do",
+      "family": "job_board",
+      "tracks": [
+        "healthcare"
+      ],
+      "regions": [],
+      "usage": "간호사·간호대학생 맥락의 구인구직과 센터 경로 탐색",
+      "limitations": "간호 직무·회원 대상·면허를 확인; 라이브 본문 열람 제한, 공식 검색 색인 근거만 확보",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 센터 소개와 구인구직 메뉴 검색 색인 확인; 본문 접근 제한",
+      "seed_evidence_url": "https://www.rnjob.or.kr/intro/center.do",
+      "seed_evidence_level": "search_index"
+    },
+    {
+      "id": "bokji",
+      "name": "복지넷",
+      "url": "https://www.bokji.net/",
+      "family": "job_board",
+      "tracks": [
+        "welfare"
+      ],
+      "regions": [],
+      "usage": "사회복지기관·시설·돌봄·복지사업의 일자리 메뉴 탐색",
+      "limitations": "직무별 사회복지사·돌봄 자격 확인; 공식 홈 직접 열기 시간초과",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 사이트 검색 색인에서 운영기관·사회복지 취업정보·일자리 항목 확인",
+      "seed_evidence_url": "https://www.bokji.net/",
+      "seed_evidence_level": "search_index"
+    },
+    {
+      "id": "welfare-association",
+      "name": "한국사회복지사협회",
+      "url": "https://www.welfare.net/welfare/main.do",
+      "family": "job_board",
+      "tracks": [
+        "welfare"
+      ],
+      "regions": [],
+      "usage": "사회복지사·복지기관 채용정보 메뉴를 복지넷과 별도 확인",
+      "limitations": "공식 본문 텍스트 추출 실패; 채용 메뉴·현행 로그인 정책 재확인 필요. 자격은 공고별 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 페이지 열기 시 텍스트 미반환; 현재 채용 목록·접근 조건 미확인",
+      "seed_evidence_url": "https://www.welfare.net/welfare/main.do",
+      "seed_evidence_level": "attempt_only"
+    },
+    {
+      "id": "childcare",
+      "name": "보육교직원 통합정보 인력뱅크",
+      "url": "https://chrd.childcare.go.kr/ctis/job/JobOfferSlPL.jsp",
+      "family": "job_board",
+      "tracks": [
+        "education",
+        "welfare"
+      ],
+      "regions": [],
+      "usage": "어린이집 보육교직원 구인 메뉴와 지역별 채용 탐색",
+      "limitations": "교사·원장 등 자격 확인; 연락처·구직정보에는 기관계정/인증 접근 조건 가능. 직접 구인목록 조회는 별도",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 메인 본문 구인구직 메뉴·운영기관 확인; 상세 이용 조건은 공식 안내 색인",
+      "seed_evidence_url": "https://chrd.childcare.go.kr/ctis/main.jsp",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "gyeonggi-education",
+      "name": "경기도교육청 구인구직",
+      "url": "https://www.goe.go.kr/recruit/ad/func/pb/hnfpPbancList.do?mi=10502",
+      "family": "regional",
+      "tracks": [
+        "education"
+      ],
+      "regions": [
+        "경기",
+        "Gyeonggi"
+      ],
+      "usage": "경기도 학교의 기간제교원·시간강사·교육공무직 탐색; 타 지역은 해당 교육청 게시판 검색",
+      "limitations": "경기도 지역 예시; 교원·비교원 자격과 과목·학교급·고용형태를 분리 확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 교육청 본문 학교급·고용형태별 구인정보 목록 확인",
+      "seed_evidence_url": "https://www.goe.go.kr/recruit/ad/func/pb/hnfpPbancList.do?mi=10502",
+      "seed_evidence_level": "body"
+    },
+    {
+      "id": "medijob",
+      "name": "메디잡",
+      "url": "https://www.medijob.cc/",
+      "family": "job_board",
+      "tracks": [
+        "healthcare"
+      ],
+      "regions": [],
+      "usage": "병·의원·의료기관의 간호·진료지원·병원행정 등 직무별 탐색",
+      "limitations": "직무별 면허·자격 확인; 홈 직접 접근 403. 연락처/지원에 계정 필요 가능; 현행 목록 갱신 미확인",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "access_limited",
+      "seed_evidence": "공식 모바일 채용경로·공고 상세 검색 색인에서 모집요강과 회원 지원 구조 확인",
+      "seed_evidence_url": "https://m.medijob.cc/tlt/mjr/tlt_mjr_102",
+      "seed_evidence_level": "search_index"
+    },
+    {
+      "id": "hunjang",
+      "name": "훈장마을",
+      "url": "https://www.hunjang.com/",
+      "family": "job_board",
+      "tracks": [
+        "education"
+      ],
+      "regions": [],
+      "usage": "학원강사·교육기관: 지역·과목·대상 학생·경력별 탐색",
+      "limitations": "학원별 학력·경력·시강 조건 확인; 모든 역할에 교원자격증이 필요하다고 가정하지 않음. 연락처 접근 제한 가능",
+      "seed_observed_on": "2026-10-06",
+      "seed_status": "checked",
+      "seed_evidence": "공식 홈 검색 색인과 공식 상세 모집요강 본문 확인; 지역별 채용 메뉴 확인",
+      "seed_evidence_url": "https://www.hunjang.com/home/recruit/recruitInfo/recruitViewDetailMain?conmId=306c424f6b524d336762475346756c366d53766255513d3d&encRcrtNo=2b356e5a5169306552637656365977627270547a46413d3d",
+      "seed_evidence_level": "body"
     }
-  ]
+  ],
+  "directory_presets": {
+    "it": [
+      "thevc"
+    ],
+    "startup": [
+      "thevc"
+    ],
+    "rnd": [
+      "aw"
+    ]
+  },
+  "audience_presets": {
+    "midcareer": [
+      "midcareer-center"
+    ],
+    "senior": [
+      "seniorro"
+    ],
+    "career_return_women": [
+      "saeil"
+    ],
+    "disability": [
+      "kead"
+    ]
+  },
+  "experience_presets": {
+    "experienced": {
+      "office": [
+        "peoplenjob",
+        "businesspeople",
+        "jobplanet",
+        "inthiswork"
+      ]
+    }
+  }
 }

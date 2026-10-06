@@ -39,6 +39,13 @@ unknown_fields and evidence_note.
 - pay when researched: separate starting pay, contract pay and company averages.
   Do not estimate unpublished compensation.
 
+Check work-specific conditions: licenses for regulated healthcare/childcare/
+teaching roles; portfolio/audition and project vs employment terms for creative
+work; hours, shifts, workplace, accommodation and pay basis for service/field
+work; direct employment, dispatch, commission or freelance arrangements. Record
+officially stated facts and preserve unknowns. Targeted program participation
+is separate from ordinary job eligibility.
+
 For a combined multi-role notice retain its URL plus PDF/page/role locator, not an
 invented per-role URL. Deduplicate without losing discovery provenance.
 

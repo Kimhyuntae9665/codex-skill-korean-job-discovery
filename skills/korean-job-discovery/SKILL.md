@@ -1,6 +1,6 @@
 ---
 name: korean-job-discovery
-description: 한국 채용공고를 여러 플랫폼·전문 협회·대학·지역 게시판·기업목록·공식 ATS에서 발견하고 현재 공식 원문으로 검증한다. 채용 탐색·추천·비교 또는 채용정보 발견 경로 다양화 요청에 사용한다.
+description: 한국의 전 직군·경력 수준 채용을 범용·직무별·지역·대상별 플랫폼과 공식 원문에서 조사한다. 사무·영업·디자인·의료·복지·교육·서비스·현장직 등을 포함한 채용 탐색·추천·비교 및 검색 경로 다양화 요청에 사용한다.
 license: MIT
 ---
 
@@ -26,9 +26,13 @@ OS, private career ledger, or Python installation is needed for these instructio
 1. Resolve consequential constraints from the request and available context.
    Ask only for missing information that changes scope or eligibility.
    User/local instructions override default routing.
+   If no role or seniority is given, start with general boards and unrestricted
+   experience levels; do not assume engineering, a degree, or entry level.
+   Audience-specific programs are optional supplements only when requested;
+   never infer age, gender, disability, or career interruption.
 2. Choose complementary general, specialist/association, regional/university,
    and employer channels. Do not force every catalog source into every request.
-3. For broad employer discovery, add a relevant directory, investor portfolio,
+3. Where useful for broad employer discovery, add a relevant directory, investor portfolio,
    exhibition, or industrial-park roster → company → official careers path.
    Use duty aliases and official ATS domains/PDFs to fill gaps. For one-company
    requests, focus on that employer rather than unrelated company rosters.
@@ -52,7 +56,8 @@ search websites or establish live verification. Run relative to this directory,
 or use the absolute script path from elsewhere.
 
 ```sh
-python scripts/discovery.py plan --tracks it,rnd --region 부산 --level entry --out plan.json
+python scripts/discovery.py plan --out plan.json
+python scripts/discovery.py plan --tracks office,marketing --region 서울 --level experienced --out plan.json
 python scripts/discovery.py audit run.json
 python scripts/discovery.py catalog-check
 ```
@@ -66,6 +71,8 @@ Company directories/investments, school reposts, social posts and past events
 are discovery signals, not current hiring or employer safety evidence.
 Distinguish school recommendations, degree requirements, military-service
 posts, internships, contracts, and direct vs agency employment.
+Check licenses for regulated roles, and shifts, hours, pay basis, employment vs
+freelance/commission arrangements for service, creative and field work.
 
 Invoking this research skill does not authorize submission, external contact,
 publication, subscriptions, scheduled monitoring, credential collection, or

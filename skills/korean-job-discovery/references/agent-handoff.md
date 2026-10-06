@@ -6,11 +6,15 @@ login, API key or author-machine path is needed.
 
 Minimum request:
 ```json
-{"task":"job_research","tracks":["it","rnd"],"region":"부산","level":"entry","employment_types":["regular","internship"],"candidate_evidence":null,"source_constraints":[],"language":"ko"}
+{"task":"job_research","tracks":["office","marketing"],"region":"서울","level":"any","audiences":[],"employment_types":["regular","contract"],"candidate_evidence":null,"source_constraints":[],"language":"ko"}
 ```
 
 Use conversation constraints first. Generic research does not require candidate
 personal information. Without evidence, keep fit conditional.
+Unspecified role/seniority maps to general/any. Choose multiple tracks for mixed
+duties; targeted audience routes require a user-specified audience. Preserve
+existing consumer fields when reading v1 records without the optional audiences
+field. Planner metadata does not apply filters on live websites.
 
 Handoff: run JSON with schema_version, request, routes and jobs. plan creates the
 skeleton; verification.md defines fields. Preserve exact URLs and timezone-bearing

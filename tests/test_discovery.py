@@ -25,7 +25,66 @@ class DiscoveryTests(unittest.TestCase):
         return run
     def test_catalog_integrity(self):
         self.assertEqual(d.catalog_errors(self.catalog),[])
-        self.assertEqual(len(self.catalog["routes"]),49)
+        self.assertTrue({"office","accounting","sales","marketing","design","media",
+                         "healthcare","welfare","education","retail","hospitality",
+                         "manufacturing","logistics","trades","part_time"}
+                        <= set(self.catalog["track_presets"]))
+    def test_default_is_general_unrestricted_experience(self):
+        run=d.plan(self.catalog,research_date="2026-10-06")
+        self.assertEqual(run["request"]["tracks"],["general"])
+        self.assertEqual(run["request"]["level"],"any")
+        self.assertEqual(run["request"]["audiences"],[])
+        selected={r["route_id"] for r in run["routes"] if r["selected"]}
+        self.assertTrue(set(self.catalog["baseline_ids"]) <= selected)
+        self.assertFalse({"jumpit","rndjob","aw","thevc","rnjob","saeil"} & selected)
+    def test_nontechnical_tracks_do_not_force_technical_rosters(self):
+        for track in ["office","marketing","design","healthcare","education","retail",
+                      "hospitality","manufacturing","logistics","part_time"]:
+            run=d.plan(self.catalog,[track],research_date="2026-10-06")
+            selected={r["route_id"] for r in run["routes"] if r["selected"]}
+            self.assertFalse({"aw","thevc","rndjob","jumpit"} & selected,track)
+            self.assertIn("greeting",selected)
+    def test_specialist_duties_choose_their_boards(self):
+        expected={"accounting":"semoojob","marketing":"iboss","design":"designerjob",
+                  "media":"mediajob","retail":"shopma","hospitality":"foodnjob",
+                  "education":"hunjang","healthcare":"medijob","trades":"construction-worknet"}
+        for track, ident in expected.items():
+            selected={r["route_id"] for r in d.plan(self.catalog,[track])["routes"] if r["selected"]}
+            self.assertIn(ident,selected,track)
+    def test_audience_routes_are_explicit_supplements(self):
+        targeted={ident for ids in self.catalog["audience_presets"].values() for ident in ids}
+        for tracks in [["general"],["office"],["welfare"],["part_time"]]:
+            selected={r["route_id"] for r in d.plan(self.catalog,tracks)["routes"] if r["selected"]}
+            self.assertFalse(targeted & selected)
+        selected={r["route_id"] for r in d.plan(self.catalog,["office"],audiences=["midcareer"])["routes"] if r["selected"]}
+        self.assertIn("midcareer-center",selected)
+        self.assertIn("saramin",selected)
+        self.assertNotIn("saeil",selected)
+    def test_unknown_audience_rejected(self):
+        with self.assertRaises(ValueError):
+            d.plan(self.catalog,audiences=["guessed-group"])
+    def test_experienced_office_prioritizes_experienced_board(self):
+        selected={r["route_id"] for r in d.plan(self.catalog,["office"],level="experienced")["routes"] if r["selected"]}
+        self.assertIn("businesspeople",selected)
+        self.assertNotIn("inthiswork",selected)
+    def test_local_part_time_board_in_initial_plan(self):
+        selected={r["route_id"] for r in d.plan(self.catalog,["hospitality","part_time"],region="인천")["routes"] if r["selected"]}
+        self.assertIn("daangn-jobs",selected)
+    def test_education_region_seed_requires_region_and_track(self):
+        for tracks,region,expected in [(["education"],"경기도",True),
+                                      (["education"],"서울",False),(["office"],"경기도",False)]:
+            selected={r["route_id"] for r in d.plan(self.catalog,tracks,region=region)["routes"] if r["selected"]}
+            self.assertEqual("gyeonggi-education" in selected,expected)
+    def test_general_region_does_not_force_industrial_directory(self):
+        selected={r["route_id"] for r in d.plan(self.catalog,region="부산")["routes"] if r["selected"]}
+        self.assertIn("busan-company",selected)
+        self.assertNotIn("busan-industrial-park",selected)
+        self.assertNotIn("changwon-department",selected)
+    def test_catalog_rejects_dangling_optional_presets(self):
+        for key in ["directory_presets","audience_presets"]:
+            catalog=copy.deepcopy(self.catalog)
+            catalog[key]["office"]=["missing-route"]
+            self.assertTrue(d.catalog_errors(catalog))
     def test_plan_does_not_inherit_seed_checks(self):
         self.assertTrue(all(r["status"]=="unverified" and r["checked_at"] is None
                             for r in self.plan()["routes"]))

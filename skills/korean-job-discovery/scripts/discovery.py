@@ -41,15 +41,27 @@ def catalog_errors(catalog):
         if r.get("seed_status") not in STATUSES:
             errors.append(f"catalog: invalid seed status for {r.get('id')}")
     refs = catalog.get("baseline_ids", []) + [
-        x for values in catalog.get("track_presets", {}).values() for x in values]
+        x for key in ("track_presets", "directory_presets", "audience_presets")
+        for values in catalog.get(key, {}).values() for x in values]
+    refs += [x for tracks in catalog.get("experience_presets", {}).values()
+             for values in tracks.values() for x in values]
     if set(refs) - set(ids):
         errors.append("catalog: presets reference nonexistent routes")
+    if set(catalog.get("directory_presets", {})) - set(catalog.get("track_presets", {})):
+        errors.append("catalog: directory presets reference unknown tracks")
+    for level, tracks in catalog.get("experience_presets", {}).items():
+        if level not in {"entry", "any", "experienced"} or set(tracks) - set(catalog["track_presets"]):
+            errors.append("catalog: invalid experience preset level/track")
     return errors
 
-def plan(catalog, tracks, region="", level="entry", mode="broad", company="",
-         per_track=2, baseline=True, research_date=None):
+def plan(catalog, tracks=None, region="", level="any", mode="broad", company="",
+         per_track=2, baseline=True, research_date=None, audiences=None):
+    tracks = ["general"] if tracks is None else tracks
+    audiences = [] if audiences is None else audiences
     if not tracks or set(tracks) - set(catalog["track_presets"]):
         raise ValueError("choose one or more known tracks")
+    if set(audiences) - set(catalog.get("audience_presets", {})):
+        raise ValueError("choose known audiences only when explicitly requested")
     if mode not in {"broad", "company", "channels"}:
         raise ValueError("unknown mode")
     if mode == "company" and not company.strip():
@@ -65,21 +77,25 @@ def plan(catalog, tracks, region="", level="entry", mode="broad", company="",
         for ident in catalog["baseline_ids"]:
             add(ident, "general-board baseline; amend to honor explicit source constraints")
     for track in tracks:
-        candidates = catalog["track_presets"][track]
+        candidates = catalog.get("experience_presets", {}).get(level, {}).get(
+            track, catalog["track_presets"][track])
         if mode == "company":
             candidates = [i for i in candidates if next(
                 r["family"] for r in catalog["routes"] if r["id"] == i) != "company_directory"]
         for ident in candidates[:per_track]:
             add(ident, f"starting specialist source for {track}")
+    for audience in audiences:
+        for ident in catalog["audience_presets"][audience]:
+            add(ident, f"explicit audience constraint: {audience}; verify program eligibility")
     for r in catalog["routes"]:
-        if any(term.casefold() in region.casefold() for term in r["regions"]):
+        if (not r["tracks"] or set(r["tracks"]) & set(tracks)) and any(
+                term.casefold() in region.casefold() for term in r["regions"]):
             if mode != "company" or r["family"] != "company_directory":
                 add(r["id"], f"region-specific source matching {region}")
     if mode == "broad":
-        if "rnd" in tracks:
-            add("aw", "relevant industrial exhibitor roster → official employer careers")
-        elif set(tracks) - {"public", "bio", "overseas"}:
-            add("thevc", "company directory → employer → official careers")
+        for track in tracks:
+            for ident in catalog.get("directory_presets", {}).get(track, []):
+                add(ident, f"relevant company directory for {track} → official careers")
         add("greeting", "official employer ATS/domain supplement")
     records = []
     for r in catalog["routes"]:
@@ -94,6 +110,7 @@ def plan(catalog, tracks, region="", level="entry", mode="broad", company="",
     return {"schema_version": 1,
             "request": {"mode": mode, "tracks": tracks, "region": region,
                         "level": level, "company": company,
+                        "audiences": audiences,
                         "research_date": day, "source_constraints": []},
             "helper_note": "Offline plan only. No sites searched or vacancies verified.",
             "routes": records, "jobs": []}
@@ -222,9 +239,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("plan")
-    p.add_argument("--tracks", required=True, help="comma-separated tracks")
+    p.add_argument("--tracks", default="general", help="comma-separated tracks; default: general")
+    p.add_argument("--audiences", default="", help="explicitly requested target groups, comma-separated")
     p.add_argument("--region", default="")
-    p.add_argument("--level", choices=["entry","any","experienced"], default="entry")
+    p.add_argument("--level", choices=["entry","any","experienced"], default="any")
     p.add_argument("--mode", choices=["broad","company","channels"], default="broad")
     p.add_argument("--company", default="")
     p.add_argument("--per-track", type=int, default=2)
@@ -242,8 +260,9 @@ def main():
     try:
         if args.command == "plan":
             tracks = list(dict.fromkeys(x.strip() for x in args.tracks.split(",") if x.strip()))
+            audiences = list(dict.fromkeys(x.strip() for x in args.audiences.split(",") if x.strip()))
             emit(plan(catalog, tracks, args.region, args.level, args.mode, args.company,
-                      args.per_track, not args.no_baseline, args.research_date), args.out)
+                      args.per_track, not args.no_baseline, args.research_date, audiences), args.out)
             return 0
         if args.command == "catalog-check":
             emit({"routes":len(catalog["routes"]),"errors":[],"note":"No live URLs requested."})
